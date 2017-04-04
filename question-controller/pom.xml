@@ -18,6 +18,11 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.seal_de</groupId>
+            <artifactId>question-service</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>question-controller</finalName>
