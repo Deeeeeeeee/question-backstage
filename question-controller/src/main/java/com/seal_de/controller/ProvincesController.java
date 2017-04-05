@@ -16,22 +16,25 @@ import java.util.List;
 @RestController
 @RequestMapping
 public class ProvincesController {
-    @Autowired
     private ProvincesService provincesService;
+    private CitiesService citiesService;
 
     @Autowired
-    private CitiesService citiesService;
+    public ProvincesController(ProvincesService provincesService, CitiesService citiesService){
+        this.provincesService = provincesService;
+        this.citiesService = citiesService;
+    }
 
     @RequestMapping(value = "/provinces")
     public List<Provinces> provincesAll(){
         return provincesService.findAll();
     }
 
-    @RequestMapping(value = "/citis/{id}")
+    @RequestMapping(value = "/cities/{provinceId}")
     public List<Cities> citisAll(
-            @PathVariable String id
+            @PathVariable String provinceId
     ){
-        return citiesService.findByProvinceId(id);
+        return citiesService.findByProvinceId(provinceId);
     }
 
 }
