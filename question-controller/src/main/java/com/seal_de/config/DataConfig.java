@@ -1,9 +1,13 @@
 package com.seal_de.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Properties;
 
@@ -11,6 +15,7 @@ import java.util.Properties;
  * 配置数据源和Hibernate的SessionFactory
  */
 @Configuration
+@EnableTransactionManagement
 public class DataConfig {
     @Bean
     public DruidDataSource dataSource() {
@@ -31,9 +36,17 @@ public class DataConfig {
         sfb.setDataSource(dataSource);
         sfb.setPackagesToScan(new String[] { "com.seal_de.domain" });
         Properties props = new Properties();
-        props.setProperty("dialect", "org.hibernate.dialect.MySQLDialect");
-        props.setProperty("show_sql", "true");
+        props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        props.setProperty("hibernate.show_sql", "true");
         sfb.setHibernateProperties(props);
         return sfb;
+    }
+
+    @Bean
+    @Autowired
+    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(sessionFactory);
+        return transactionManager;
     }
 }

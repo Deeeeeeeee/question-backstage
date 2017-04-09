@@ -1,46 +1,46 @@
 package com.seal_de.domain;
 
-import javax.persistence.*;
-import java.util.Arrays;
+import org.hibernate.annotations.GenericGenerator;
 
-/**
- * Created by seal_de on 2017/4/4.
- */
+import javax.persistence.*;
+
 @Entity
 @Table(name = "user_info", schema = "question", catalog = "")
 public class UserInfo {
-    private byte[] id;
-    private byte[] username;
-    private byte[] password;
+    private String id;
+    private String username;
+    private String password;
     private Integer role;
 
     @Id
+    @GeneratedValue(generator = "generator")
+    @GenericGenerator(name = "generator", strategy = "uuid.hex")
     @Column(name = "id", nullable = false)
-    public byte[] getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(byte[] id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     @Basic
     @Column(name = "username", nullable = true)
-    public byte[] getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(byte[] username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
     @Basic
     @Column(name = "password", nullable = true)
-    public byte[] getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(byte[] password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -61,19 +61,17 @@ public class UserInfo {
 
         UserInfo userInfo = (UserInfo) o;
 
-        if (!Arrays.equals(id, userInfo.id)) return false;
-        if (!Arrays.equals(username, userInfo.username)) return false;
-        if (!Arrays.equals(password, userInfo.password)) return false;
-        if (role != null ? !role.equals(userInfo.role) : userInfo.role != null) return false;
-
-        return true;
+        if (!id.equals(userInfo.id)) return false;
+        if (username != null ? !username.equals(userInfo.username) : userInfo.username != null) return false;
+        if (password != null ? !password.equals(userInfo.password) : userInfo.password != null) return false;
+        return role != null ? role.equals(userInfo.role) : userInfo.role == null;
     }
 
     @Override
     public int hashCode() {
-        int result = Arrays.hashCode(id);
-        result = 31 * result + Arrays.hashCode(username);
-        result = 31 * result + Arrays.hashCode(password);
+        int result = id.hashCode();
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }

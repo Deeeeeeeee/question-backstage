@@ -5,11 +5,9 @@ import com.seal_de.domain.Provinces;
 import com.seal_de.service.CitiesService;
 import com.seal_de.service.ProvincesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,7 +29,7 @@ public class ProvincesController {
     }
 
     @RequestMapping(value = "/cities/{provinceId}")
-    public List<Cities> citisAll(
+    public List<Cities> citiesAll(
             @PathVariable String provinceId
     ){
         return citiesService.findByProvinceId(provinceId);
