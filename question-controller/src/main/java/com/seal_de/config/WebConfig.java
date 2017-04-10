@@ -1,9 +1,14 @@
 package com.seal_de.config;
 
 import com.seal_de.interceptor.CommonInterceptor;
+import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -17,6 +22,10 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /** DispatcherServlet 启动时，创建 Spring 应用上下文，加载配置文件或配置类中声明的 bean **/
 @Configuration
@@ -45,25 +54,27 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return templateResolver;
     }
 
-//    @Bean
-//    public ViewResolver viewResolver() {
-//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//        resolver.setPrefix("/WEB-INF/views/");
-//        resolver.setSuffix(".html");
-//        resolver.setExposeContextBeansAsAttributes(true);
-//        return resolver;
-//    }
-
     /** 上传文件 multipart 解析器 **/
     @Bean
     public MultipartResolver multipartResolver() throws IOException {
         return new StandardServletMultipartResolver();
     }
 
+    /** 配置跨域拦截器 **/
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new CommonInterceptor())
                 .addPathPatterns("/**").excludePathPatterns("/");
+    }
+
+    //解析json返回数据
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        List<MediaType> mediaTypes = new ArrayList(converter.getSupportedMediaTypes());
+        converter.setSupportedMediaTypes(mediaTypes);
+        mediaTypes.addAll(Arrays.asList(MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.TEXT_XML));
+        converters.add(converter);
     }
 
     /** 静态资源不做处理 **/

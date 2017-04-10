@@ -37,15 +37,15 @@ public class HomeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String register(UserInfo userInfo) {
+    @RequestMapping(value = "register")
+    public String register(@RequestBody UserInfo userInfo) {
         userInfoService.saveUserInfo(userInfo);
         return "register success";
     }
 
     @ResponseBody
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(UserInfo userInfo) {
+    public String login(@RequestBody UserInfo userInfo) {
         UserInfo user = userInfoService.getByUsername(userInfo.getUsername());
         notNull(user, HttpStatus.NOT_FOUND, "用户不存在");
         stringEquals(user.getPassword(), userInfo.getPassword(),
