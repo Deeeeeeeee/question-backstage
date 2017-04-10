@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
  * servlet、filter 等配置
  */
 public class ServletInitializer implements WebApplicationInitializer{
+    /** 开启对servlet3.0多线程的支持 **/
     public void onStartup(ServletContext servletContext) throws ServletException {
         Dynamic customFilter = servletContext.addFilter("SpringOpenSessionInViewFilter",
                 OpenSessionInViewFilter.class);

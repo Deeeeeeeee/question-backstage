@@ -72,7 +72,7 @@ public class HomeControllerTest {
 
     @Test
     public void testException() throws Exception {
-        mockMvc.perform(post("/exception"))
+        mockMvc.perform(get("/fileupload"))
                 .andDo(print());
     }
 

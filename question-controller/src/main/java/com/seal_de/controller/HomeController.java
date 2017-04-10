@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/")
 public class HomeController {
@@ -21,9 +23,17 @@ public class HomeController {
         this.userInfoService = userInfoService;
     }
 
+    @Autowired
+    private HttpServletRequest request;
+
     @RequestMapping
     public String home(){
         return "home";
+    }
+
+    @RequestMapping(value = "fileupload", method = RequestMethod.GET)
+    public String fileupload(){
+        return "uploadForm";
     }
 
     @ResponseBody
