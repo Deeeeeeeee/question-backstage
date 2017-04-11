@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 @RestController
 public class FileUploadController {
@@ -20,32 +22,46 @@ public class FileUploadController {
     private HttpServletRequest request;
 
     @RequestMapping(value = "fileupload", method= RequestMethod.POST)
-    public String processUpload(
-            @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+    public List<String> processUpload(
+            @RequestPart(value = "files", required = false) MultipartFile[] files) throws IOException {
+        String realPath = request.getSession().getServletContext().getRealPath("/");
         String dirPath = createFileDir();
-        String oldFilename = file.getOriginalFilename();
-        String newFilename = "/" + createFilename() +
-                oldFilename.substring(oldFilename.lastIndexOf('.'));
-        File dir = new File(dirPath);
+
+        File dir = new File(realPath + dirPath);
         if(!dir.exists()){
             dir.mkdirs();
         }
-        file.transferTo(new File(dir.getAbsolutePath() + newFilename));
-        return dirPath + newFilename;
+
+        return fileUploads(files, realPath, dirPath);
     }
 
     private String createFileDir(){
-        String dirPath = request.getSession().getServletContext().getRealPath("/uploads");
+        String dirPath = "uploads";
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
         int month = now.get(Calendar.MONTH) + 1;
         return dirPath + "/" + year + "/" + month;
     }
 
-    private String createFilename() {
+    private String createNewFilename(MultipartFile file) {
+        String oldFilename = file.getOriginalFilename();
+        String fileSuffix = oldFilename.substring(oldFilename.lastIndexOf('.'));
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
         String date = sdf.format(new Date());
         long randomCode = Math.round(Math.random() * 10000) + 1;
-        return date + randomCode;
+
+        return "/" + date + randomCode + fileSuffix;
+    }
+
+    private List<String> fileUploads(MultipartFile[] files, String realPath, String dirPath) throws IOException {
+        List<String> list = new LinkedList<String>();
+        String filePath = realPath + dirPath;
+        for(MultipartFile file : files) {
+            String newFilename = createNewFilename(file);
+            file.transferTo(new File(filePath + newFilename));
+            list.add(dirPath + newFilename);
+        }
+        return list;
     }
 }

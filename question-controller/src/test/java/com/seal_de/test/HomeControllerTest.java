@@ -24,9 +24,6 @@ public class HomeControllerTest {
     @Mock
     private UserInfoService userInfoService;
 
-    @Mock
-    private NotFoundException notFoundException;
-
     @InjectMocks
     private HomeController controller;
 
