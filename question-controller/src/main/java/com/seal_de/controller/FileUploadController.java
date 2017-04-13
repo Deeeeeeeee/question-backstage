@@ -1,13 +1,14 @@
 package com.seal_de.controller;
 
+import static com.seal_de.service.exception.VerifyUtil.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -17,13 +18,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
+@SessionAttributes("fileUploadPathList")
 public class FileUploadController {
     @Autowired
     private HttpServletRequest request;
 
+    @RequestMapping(value = "getFileUpload", method = RequestMethod.GET)
+    public List<String> getUpload(Model model){
+        isTrue(model.containsAttribute("fileUploadPathList"),
+                HttpStatus.NOT_FOUND, "图片未上传");
+        return (List<String>) model.asMap().get("fileUploadPathList");
+    }
+
     @RequestMapping(value = "fileupload", method= RequestMethod.POST)
     public List<String> processUpload(
-            @RequestPart(value = "files", required = false) MultipartFile[] files) throws IOException {
+            @RequestPart(value = "files[]", required = false) MultipartFile[] files, HttpSession session) throws IOException {
         String realPath = request.getSession().getServletContext().getRealPath("/");
         String dirPath = createFileDir();
 
@@ -32,7 +41,10 @@ public class FileUploadController {
             dir.mkdirs();
         }
 
-        return fileUploads(files, realPath, dirPath);
+        List<String> list = fileUploads(files, realPath, dirPath);
+        session.setAttribute("fileUploadPathList", list);
+
+        return list;
     }
 
     private String createFileDir(){
@@ -41,6 +53,20 @@ public class FileUploadController {
         int year = now.get(Calendar.YEAR);
         int month = now.get(Calendar.MONTH) + 1;
         return dirPath + "/" + year + "/" + month;
+    }
+
+    private List<String> fileUploads(MultipartFile[] files, String realPath, String dirPath) throws IOException {
+        List<String> list = new LinkedList<String>();
+        String filePath = realPath + dirPath;
+        for(MultipartFile file : files) {
+            isTrue(!file.isEmpty(), HttpStatus.BAD_REQUEST, "文件不能为空");
+        }
+        for(MultipartFile file : files) {
+            String newFilename = createNewFilename(file);
+            file.transferTo(new File(filePath + newFilename));
+            list.add(dirPath + newFilename);
+        }
+        return list;
     }
 
     private String createNewFilename(MultipartFile file) {
@@ -52,16 +78,5 @@ public class FileUploadController {
         long randomCode = Math.round(Math.random() * 10000) + 1;
 
         return "/" + date + randomCode + fileSuffix;
-    }
-
-    private List<String> fileUploads(MultipartFile[] files, String realPath, String dirPath) throws IOException {
-        List<String> list = new LinkedList<String>();
-        String filePath = realPath + dirPath;
-        for(MultipartFile file : files) {
-            String newFilename = createNewFilename(file);
-            file.transferTo(new File(filePath + newFilename));
-            list.add(dirPath + newFilename);
-        }
-        return list;
     }
 }

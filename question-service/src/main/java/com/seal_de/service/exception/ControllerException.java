@@ -1,6 +1,4 @@
-package com.seal_de.exception;
-
-import org.springframework.http.HttpStatus;
+package com.seal_de.service.exception;
 
 public class ControllerException extends RuntimeException{
     private static final long serialVersionUID = 1L;

@@ -1,6 +1,6 @@
 package com.seal_de.controller;
 
-import com.seal_de.exception.ControllerException;
+import com.seal_de.service.exception.ControllerException;
 import com.seal_de.exception.Error;
 import com.seal_de.exception.NotFoundException;
 import org.hibernate.DuplicateMappingException;
