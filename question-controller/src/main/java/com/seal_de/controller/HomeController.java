@@ -31,6 +31,11 @@ public class HomeController {
         return "home";
     }
 
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String login(){
+        return "login";
+    }
+
     @RequestMapping(value = "fileupload", method = RequestMethod.GET)
     public String fileupload(){
         return "uploadForm";

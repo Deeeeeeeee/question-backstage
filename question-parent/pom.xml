@@ -18,6 +18,7 @@
         <!-- version setting -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.3.7.RELEASE</spring.version>
+        <spring.security.version>4.2.2.RELEASE</spring.security.version>
         <hibernate.version>4.3.8.Final</hibernate.version>
         <druid.version>1.0.1</druid.version>
         <hibernate.validator.version>5.0.1.Final</hibernate.validator.version>
@@ -62,6 +63,19 @@
             <version>2.1.4.RELEASE</version>
         </dependency>
         <!-- main framwork end -->
+
+        <!-- spring security begin -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <!-- spring security end -->
 
         <!-- jdbc begin -->
         <dependency>
