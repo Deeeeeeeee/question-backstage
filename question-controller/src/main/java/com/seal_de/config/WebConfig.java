@@ -1,6 +1,9 @@
 package com.seal_de.config;
 
 import com.seal_de.interceptor.CommonInterceptor;
+import com.seal_de.interceptor.TokenInterceptor;
+import com.seal_de.security.TokenManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -32,6 +35,9 @@ import java.util.List;
 @EnableWebMvc
 @ComponentScan("com.seal_de.controller")
 public class WebConfig extends WebMvcConfigurerAdapter {
+    @Autowired
+    private TokenManager tokenManager;
+
     @Bean
     public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
@@ -65,6 +71,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new CommonInterceptor())
                 .addPathPatterns("/**").excludePathPatterns("/");
+        registry.addInterceptor(new TokenInterceptor(tokenManager))
+                .addPathPatterns("/**").excludePathPatterns("/", "/register", "/login", "/provinces", "/cities/**");
     }
 
     //解析json返回数据

@@ -46,10 +46,6 @@ public class CommonInterceptor implements HandlerInterceptor {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers",
                 "Origin, X-Requested-With, Content-Type, Accept, authenrizon");
-//        if(request.getServletPath() != "/login") {
-//            String token = request.getHeader("Access-Control-Allow-Headers:authenrizon");
-//
-//        }
         return true;
     }
 

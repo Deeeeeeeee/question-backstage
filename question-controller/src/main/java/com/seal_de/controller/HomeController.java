@@ -2,13 +2,17 @@ package com.seal_de.controller;
 
 import com.seal_de.domain.UserInfo;
 import static com.seal_de.service.exception.VerifyUtil.*;
+
+import com.seal_de.security.TokenManager;
 import com.seal_de.service.UserInfoService;
+import com.seal_de.service.util.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/")
@@ -22,7 +26,8 @@ public class HomeController {
     public HomeController(UserInfoService userInfoService) {
         this.userInfoService = userInfoService;
     }
-
+    @Autowired
+    private TokenManager tokenManager;
     @Autowired
     private HttpServletRequest request;
 
@@ -42,7 +47,7 @@ public class HomeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "register")
+    @RequestMapping(value = "register", method = RequestMethod.POST)
     public String register(@RequestBody UserInfo userInfo) {
         userInfoService.saveUserInfo(userInfo);
         return "register success";
@@ -50,12 +55,24 @@ public class HomeController {
 
     @ResponseBody
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(@RequestBody UserInfo userInfo) {
-        UserInfo user = userInfoService.getByUsername(userInfo.getUsername());
+    public String login(@RequestBody UserInfo userInfo, HttpServletResponse response) {
+        String username = userInfo.getUsername();
+        UserInfo user = userInfoService.getByUsername(username);
         notNull(user, HttpStatus.NOT_FOUND, "用户不存在");
-        stringEquals(user.getPassword(), userInfo.getPassword(),
+        isTrue(EncryptUtil.matchs(userInfo.getPassword(), user.getPassword()),
                 HttpStatus.UNAUTHORIZED, "用户名或密码不正确");
+
+        response.setHeader("Access-Control-Allow-Headers:authenrizon",
+                tokenManager.createToken(username));
+
         return "success";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public String logout(){
+        String token = request.getHeader("authorization");
+        tokenManager.removeToken(token);
+        return "logout success";
+    }
 }
