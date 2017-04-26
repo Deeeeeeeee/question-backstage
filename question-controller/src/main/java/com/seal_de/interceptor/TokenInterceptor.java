@@ -1,7 +1,7 @@
 package com.seal_de.interceptor;
 
 import com.seal_de.security.TokenManager;
-import com.seal_de.service.exception.VerifyUtil;
+import com.seal_de.service.util.VerifyUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,7 +23,9 @@ public class TokenInterceptor implements HandlerInterceptor {
         String token = httpServletRequest.getHeader("Access-Control-Allow-Headers:authorization");
         VerifyUtil.isTrue(tokenManager.checkToken(token),
                 HttpStatus.UNAUTHORIZED, "token验证失败");
-        return false;
+        httpServletRequest.setAttribute("token_username", tokenManager.getUsername(token));
+//        httpServletRequest.setAttribute("token_username", "jm1");
+        return true;
     }
 
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {

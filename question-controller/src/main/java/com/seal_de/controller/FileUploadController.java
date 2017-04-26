@@ -1,6 +1,6 @@
 package com.seal_de.controller;
 
-import static com.seal_de.service.exception.VerifyUtil.*;
+import static com.seal_de.service.util.VerifyUtil.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;

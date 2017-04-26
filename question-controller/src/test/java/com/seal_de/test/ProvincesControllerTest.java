@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import com.seal_de.controller.ProvincesController;
 import com.seal_de.domain.Provinces;
 import com.seal_de.service.ProvincesService;
-import com.seal_de.service.util.EncryptUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -61,10 +60,5 @@ public class ProvincesControllerTest {
         list.add(p1);
         list.add(p2);
         return list;
-    }
-
-    @Test
-    public void encrypt(){
-        System.out.println(EncryptUtil.encypt("qq"));
     }
 }

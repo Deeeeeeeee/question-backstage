@@ -12,25 +12,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class HibernateProvincesRepository implements ProvincesRepository{
-    private SessionFactory sessionFactory;
-
-    @Autowired
-    public HibernateProvincesRepository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    private Session currentSession() {
-        return sessionFactory.getCurrentSession();
-    }
+public class HibernateProvincesRepository extends AbstractRepository<Provinces> implements ProvincesRepository{
 
     public List<Provinces> findAll(){
-        return provincesCriteria().list();
+        return createCriteria()
+                .addOrder(Order.asc("id"))
+                .list();
     }
 
-    private Criteria provincesCriteria() {
-        return currentSession()
-                .createCriteria(Provinces.class)
-                .addOrder(Order.asc("id"));
-    }
 }

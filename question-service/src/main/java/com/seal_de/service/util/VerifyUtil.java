@@ -1,4 +1,6 @@
-package com.seal_de.service.exception;
+package com.seal_de.service.util;
+
+import com.seal_de.service.exception.ControllerException;
 
 public class VerifyUtil {
     private static void verify(boolean statement, Object errorStatus, String errorMessage){

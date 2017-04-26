@@ -23,8 +23,8 @@ public class UserInfoRepositoryTest {
     public void saveUserInfo() {
         UserInfo userInfo = new UserInfo();
         userInfo.setId("5");
-        userInfo.setUsername("zong heng");
-        userInfo.setPassword("heng heng");
+        userInfo.setUsername("lalala");
+        userInfo.setPassword("lalalala");
         userInfoRepository.save(userInfo);
     }
 }

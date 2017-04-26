@@ -1,7 +1,7 @@
 package com.seal_de.controller;
 
 import com.seal_de.domain.UserInfo;
-import static com.seal_de.service.exception.VerifyUtil.*;
+import static com.seal_de.service.util.VerifyUtil.*;
 
 import com.seal_de.security.TokenManager;
 import com.seal_de.service.UserInfoService;
@@ -19,13 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 public class HomeController {
 
     private UserInfoService userInfoService;
-
     public HomeController(){}
-
     @Autowired
     public HomeController(UserInfoService userInfoService) {
         this.userInfoService = userInfoService;
     }
+
     @Autowired
     private TokenManager tokenManager;
     @Autowired
@@ -58,20 +57,21 @@ public class HomeController {
     public String login(@RequestBody UserInfo userInfo, HttpServletResponse response) {
         String username = userInfo.getUsername();
         UserInfo user = userInfoService.getByUsername(username);
+
         notNull(user, HttpStatus.NOT_FOUND, "用户不存在");
         isTrue(EncryptUtil.matchs(userInfo.getPassword(), user.getPassword()),
                 HttpStatus.UNAUTHORIZED, "用户名或密码不正确");
 
-        response.setHeader("Access-Control-Allow-Headers:authenrizon",
-                tokenManager.createToken(username));
+        String token = tokenManager.createToken(username);
+        response.setHeader("Access-Control-Allow-Headers:authorization", token);
 
-        return "success";
+        return token;
     }
 
     @ResponseBody
     @RequestMapping(value = "logout", method = RequestMethod.GET)
     public String logout(){
-        String token = request.getHeader("authorization");
+        String token = request.getHeader("Access-Control-Allow-Headers:authorization");
         tokenManager.removeToken(token);
         return "logout success";
     }

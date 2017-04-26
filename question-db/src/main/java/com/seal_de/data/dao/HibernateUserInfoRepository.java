@@ -31,7 +31,7 @@ public class HibernateUserInfoRepository implements UserInfoRepository{
     }
 
     public boolean save(UserInfo userInfo) {
-        currentSession().save(userInfo);
+        currentSession().saveOrUpdate(userInfo);
         return true;
     }
 

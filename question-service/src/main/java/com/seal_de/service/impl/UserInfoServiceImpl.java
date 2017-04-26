@@ -1,6 +1,6 @@
 package com.seal_de.service.impl;
 
-import static com.seal_de.service.exception.VerifyUtil.*;
+import static com.seal_de.service.util.VerifyUtil.*;
 import com.seal_de.data.UserInfoRepository;
 import com.seal_de.domain.UserInfo;
 import com.seal_de.service.UserInfoService;
