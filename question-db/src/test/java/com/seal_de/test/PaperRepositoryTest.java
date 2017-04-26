@@ -43,10 +43,10 @@ public class PaperRepositoryTest {
         paper.setGrade("初二");
         paper.setPaperName("初二期末linux考试");
         paper.setPaperType(2);
-        paper.setProvince("广东省");
+        paper.setRegion("广东省");
         paper.setSchool("广东工业中学");
         paper.setSubject("黑客");
-        paper.setYear(new Date());
+        paper.setYear("2017");
         return paper;
     }
 }

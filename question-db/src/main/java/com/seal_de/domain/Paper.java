@@ -14,10 +14,10 @@ public class Paper {
     private String id;
     private Integer paperType;
     private String paperName;
-    private Date year;
+    private String year;
     private String subject;
     private String grade;
-    private String province;
+    private String region;
     private String school;
 
     @Id
@@ -54,11 +54,11 @@ public class Paper {
 
     @Basic
     @Column(name = "year")
-    public Date getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(Date year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -83,13 +83,13 @@ public class Paper {
     }
 
     @Basic
-    @Column(name = "province")
-    public String getProvince() {
-        return province;
+    @Column(name = "region")
+    public String getRegion() {
+        return region;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
+    public void setRegion(String province) {
+        this.region = province;
     }
 
     @Basic
