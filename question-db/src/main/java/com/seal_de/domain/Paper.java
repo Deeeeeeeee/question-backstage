@@ -12,7 +12,7 @@ import java.util.Date;
 @Table(name = "paper")
 public class Paper {
     private String id;
-    private Integer paperType;
+    private String paperType;
     private String paperName;
     private String year;
     private String subject;
@@ -34,11 +34,11 @@ public class Paper {
 
     @Basic
     @Column(name = "paper_type")
-    public Integer getPaperType() {
+    public String getPaperType() {
         return paperType;
     }
 
-    public void setPaperType(Integer paperType) {
+    public void setPaperType(String paperType) {
         this.paperType = paperType;
     }
 

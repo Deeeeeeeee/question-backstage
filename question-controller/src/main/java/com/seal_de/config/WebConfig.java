@@ -1,5 +1,6 @@
 package com.seal_de.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seal_de.interceptor.CommonInterceptor;
 import com.seal_de.interceptor.TokenInterceptor;
 import com.seal_de.security.TokenManager;
@@ -26,6 +27,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,7 +68,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return new StandardServletMultipartResolver();
     }
 
-    /** 配置跨域拦截器 **/
+    /** 配置跨域拦截器、token拦截器 **/
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new CommonInterceptor())
@@ -79,9 +81,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+
         List<MediaType> mediaTypes = new ArrayList(converter.getSupportedMediaTypes());
         converter.setSupportedMediaTypes(mediaTypes);
         mediaTypes.addAll(Arrays.asList(MediaType.TEXT_PLAIN, MediaType.TEXT_HTML, MediaType.TEXT_XML));
+
+        ObjectMapper objectMapper = converter.getObjectMapper();
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+
         converters.add(converter);
     }
 

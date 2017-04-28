@@ -54,7 +54,7 @@ public class HomeController {
 
     @ResponseBody
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(@RequestBody UserInfo userInfo, HttpServletResponse response) {
+    public RoleToken login(@RequestBody UserInfo userInfo, HttpServletResponse response) {
         String username = userInfo.getUsername();
         UserInfo user = userInfoService.getByUsername(username);
 
@@ -62,10 +62,9 @@ public class HomeController {
         isTrue(EncryptUtil.matchs(userInfo.getPassword(), user.getPassword()),
                 HttpStatus.UNAUTHORIZED, "用户名或密码不正确");
 
+        Integer role = user.getRole();
         String token = tokenManager.createToken(username);
-        response.setHeader("Access-Control-Allow-Headers:authorization", token);
-
-        return token;
+        return new RoleToken(role, token);
     }
 
     @ResponseBody
@@ -74,5 +73,23 @@ public class HomeController {
         String token = request.getHeader("Access-Control-Allow-Headers:authorization");
         tokenManager.removeToken(token);
         return "logout success";
+    }
+
+    private class RoleToken {
+        private Integer role;
+        private String token;
+
+        public RoleToken(Integer role, String token) {
+            this.role = role;
+            this.token = token;
+        }
+
+        public Integer getRole() {
+            return role;
+        }
+
+        public String getToken() {
+            return token;
+        }
     }
 }

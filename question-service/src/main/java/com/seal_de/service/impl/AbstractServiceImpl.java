@@ -10,9 +10,7 @@ import java.io.Serializable;
  * Created by sealde on 4/25/17.
  */
 public abstract class AbstractServiceImpl<K extends IRepository, E> {
-    @Autowired
     protected K repository;
-    public AbstractServiceImpl() {}
 
     @Transactional
     public boolean save(E element) {

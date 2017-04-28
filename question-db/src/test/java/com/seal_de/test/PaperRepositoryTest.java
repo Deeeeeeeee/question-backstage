@@ -42,7 +42,7 @@ public class PaperRepositoryTest {
 //        paper.setId("random id");
         paper.setGrade("初二");
         paper.setPaperName("初二期末linux考试");
-        paper.setPaperType(2);
+        paper.setPaperType("2");
         paper.setRegion("广东省");
         paper.setSchool("广东工业中学");
         paper.setSubject("黑客");

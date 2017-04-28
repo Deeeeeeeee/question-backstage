@@ -20,7 +20,13 @@ public class TokenInterceptor implements HandlerInterceptor {
     }
 
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        String token = httpServletRequest.getHeader("Access-Control-Allow-Headers:authorization");
+        String requestMethod = httpServletRequest.getMethod();
+        if("OPTIONS".equals(requestMethod))
+            return true;
+
+        String token = httpServletRequest.getHeader("authorization");
+        token = token.substring(1, token.length()-1);
+
         VerifyUtil.isTrue(tokenManager.checkToken(token),
                 HttpStatus.UNAUTHORIZED, "token验证失败");
         httpServletRequest.setAttribute("token_username", tokenManager.getUsername(token));

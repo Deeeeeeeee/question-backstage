@@ -1,5 +1,6 @@
 package com.seal_de.controller;
 
+import com.seal_de.Model.TaskInfoModel;
 import com.seal_de.domain.Paper;
 import com.seal_de.domain.Task;
 import com.seal_de.domain.UserInfo;
@@ -11,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sealde on 4/24/17.
@@ -35,20 +38,19 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<Task> taskList(UserInfo user) {
-//        UserInfo user = userInfoService.getByUsername(token_username);
-//        notNull(user, HttpStatus.NOT_FOUND, "用户不存在");
-
+    public List<TaskInfoModel> taskList(UserInfo user) {
         List<Task> tasks = taskService.findByUserId(user.getId());
-        return tasks;
+        List<TaskInfoModel> taskInfoModels = taskService.taskToTaskInfoModel(tasks);
+        return taskInfoModels;
     }
 
-    @RequestMapping("/startMaking")
-    public String startMaking(UserInfo user, Paper paper) {
+    @RequestMapping(value = "/startMaking", method = RequestMethod.POST)
+    public Map<String, String> startMaking(UserInfo user, @RequestBody Paper paper) {
         Task task = processTask(user.getId(), paper);
         paperService.save(paper);
         taskService.save(task);
-        return "success";
+        final String paperId = paper.getId();
+        return new HashMap<String, String>(){{this.put("paperId", paperId);}};
     }
 
     private Task processTask(String userId, Paper paper) {

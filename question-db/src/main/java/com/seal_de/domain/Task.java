@@ -1,5 +1,6 @@
 package com.seal_de.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -50,6 +51,7 @@ public class Task {
     }
 
     @Basic
+    @JsonIgnore
     @Column(name = "user_id")
     public String getUserId() {
         return userId;
