@@ -15,9 +15,4 @@ public class PaperServiceImpl extends AbstractServiceImpl<PaperRepository, Paper
     public PaperServiceImpl(PaperRepository repository) {
         this.repository = repository;
     }
-//    protected PaperRepository repository;
-//    @Autowired
-//    public PaperServiceImpl(PaperRepository repository) {
-//        this.repository = repository;
-//    }
 }

@@ -18,8 +18,6 @@ import java.util.List;
  */
 @Service
 public class TaskServiceImpl extends AbstractServiceImpl<TaskRepository, Task> implements TaskService {
-    protected TaskRepository repository;
-
     @Autowired
     public TaskServiceImpl(TaskRepository taskRepository) {
         this.repository = taskRepository;

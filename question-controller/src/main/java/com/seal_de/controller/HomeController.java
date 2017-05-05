@@ -54,7 +54,7 @@ public class HomeController {
 
     @ResponseBody
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public RoleToken login(@RequestBody UserInfo userInfo, HttpServletResponse response) {
+    public RoleToken login(@RequestBody UserInfo userInfo) {
         String username = userInfo.getUsername();
         UserInfo user = userInfoService.getByUsername(username);
 

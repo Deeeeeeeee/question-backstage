@@ -1,24 +1,27 @@
 package com.seal_de.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
- * Created by sealde on 4/25/17.
+ * Created by sealde on 5/5/17.
  */
 @Entity
 @Table(name = "paper")
 public class Paper {
+    @JsonIgnore
     private String id;
     private String paperType;
-    private String paperName;
     private String year;
     private String subject;
     private String grade;
-    private String region;
     private String school;
+    private String paperName;
+    private String region;
+    private String oldUrl;
+    private String url;
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -40,16 +43,6 @@ public class Paper {
 
     public void setPaperType(String paperType) {
         this.paperType = paperType;
-    }
-
-    @Basic
-    @Column(name = "paper_name")
-    public String getPaperName() {
-        return paperName;
-    }
-
-    public void setPaperName(String paperName) {
-        this.paperName = paperName;
     }
 
     @Basic
@@ -83,16 +76,6 @@ public class Paper {
     }
 
     @Basic
-    @Column(name = "region")
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String province) {
-        this.region = province;
-    }
-
-    @Basic
     @Column(name = "school")
     public String getSchool() {
         return school;
@@ -100,5 +83,81 @@ public class Paper {
 
     public void setSchool(String school) {
         this.school = school;
+    }
+
+    @Basic
+    @Column(name = "paper_name")
+    public String getPaperName() {
+        return paperName;
+    }
+
+    public void setPaperName(String paperName) {
+        this.paperName = paperName;
+    }
+
+    @Basic
+    @Column(name = "region")
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    @Basic
+    @Column(name = "old_url")
+    public String getOldUrl() {
+        return oldUrl;
+    }
+
+    public void setOldUrl(String oldUrl) {
+        this.oldUrl = oldUrl;
+    }
+
+    @Basic
+    @Column(name = "url")
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Paper paper = (Paper) o;
+
+        if (id != null ? !id.equals(paper.id) : paper.id != null) return false;
+        if (paperType != null ? !paperType.equals(paper.paperType) : paper.paperType != null) return false;
+        if (year != null ? !year.equals(paper.year) : paper.year != null) return false;
+        if (subject != null ? !subject.equals(paper.subject) : paper.subject != null) return false;
+        if (grade != null ? !grade.equals(paper.grade) : paper.grade != null) return false;
+        if (school != null ? !school.equals(paper.school) : paper.school != null) return false;
+        if (paperName != null ? !paperName.equals(paper.paperName) : paper.paperName != null) return false;
+        if (region != null ? !region.equals(paper.region) : paper.region != null) return false;
+        if (oldUrl != null ? !oldUrl.equals(paper.oldUrl) : paper.oldUrl != null) return false;
+        if (url != null ? !url.equals(paper.url) : paper.url != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (paperType != null ? paperType.hashCode() : 0);
+        result = 31 * result + (year != null ? year.hashCode() : 0);
+        result = 31 * result + (subject != null ? subject.hashCode() : 0);
+        result = 31 * result + (grade != null ? grade.hashCode() : 0);
+        result = 31 * result + (school != null ? school.hashCode() : 0);
+        result = 31 * result + (paperName != null ? paperName.hashCode() : 0);
+        result = 31 * result + (region != null ? region.hashCode() : 0);
+        result = 31 * result + (oldUrl != null ? oldUrl.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        return result;
     }
 }
