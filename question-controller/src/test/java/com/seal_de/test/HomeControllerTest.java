@@ -12,6 +12,11 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -91,4 +96,19 @@ public class HomeControllerTest {
         return userInfo;
     }
 
+
+    @Test
+    public void tttt() {
+        List<String> list = new ArrayList<String>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4");
+        ListIterator<String> iterator = list.listIterator(2);
+        while(iterator.hasNext()){
+            String s = iterator.next();
+            iterator.set(s+"0000");
+        }
+        System.out.println("aaa");
+    }
 }

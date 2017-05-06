@@ -32,6 +32,10 @@ public abstract class AbstractRepository<T> {
         currentSession().delete(element);
     }
 
+    public void clear(){
+        currentSession().clear();
+    }
+
     public Criteria createCriteria() {
         return currentSession()
                 .createCriteria(getClazz());

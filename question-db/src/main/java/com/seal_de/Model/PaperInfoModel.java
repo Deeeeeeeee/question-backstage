@@ -1,45 +1,56 @@
 package com.seal_de.Model;
 
-import com.seal_de.domain.Paper;
 import com.seal_de.domain.PaperDetail;
+import com.seal_de.domain.PaperItem;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by sealde on 5/3/17.
  */
 public class PaperInfoModel {
-    private Paper basicInfo;
-    private String paperUrl;
-    private List<PaperDetail> detail;
+    private List<QuestionHeadline> questionHeadline;
 
-    public PaperInfoModel(Paper paper, String paperUrl, List<PaperDetail> detail) {
-        this.basicInfo = paper;
-        this.paperUrl = paperUrl;
-        this.detail = detail;
+    public PaperInfoModel(List<PaperDetail> paperDetails) {
+        this.questionHeadline = new LinkedList<QuestionHeadline>();
+        for(PaperDetail paperDetail : paperDetails) {
+            List<PaperItem> questionList = paperDetail.getPaperItems();
+            this.questionHeadline.add(new QuestionHeadline(paperDetail.getQuestionType(), questionList));
+        }
     }
 
-    public Paper getBasicInfo() {
-        return basicInfo;
+    public List<QuestionHeadline> getQuestionHeadline() {
+        return questionHeadline;
     }
 
-    public void setBasicInfo(Paper basicInfo) {
-        this.basicInfo = basicInfo;
+    public void setQuestionHeadline(List<QuestionHeadline> questionHeadline) {
+        this.questionHeadline = questionHeadline;
     }
 
-    public String getPaperUrl() {
-        return paperUrl;
-    }
+    private class QuestionHeadline {
+        private String questionType;
+        private List<PaperItem> questionList;
 
-    public void setPaperUrl(String paperUrl) {
-        this.paperUrl = paperUrl;
-    }
+        public QuestionHeadline(String questionType, List<PaperItem> questionList) {
+            this.questionType = questionType;
+            this.questionList = questionList;
+        }
 
-    public List<PaperDetail> getDetail() {
-        return detail;
-    }
+        public String getQuestionType() {
+            return questionType;
+        }
 
-    public void setDetail(List<PaperDetail> detail) {
-        this.detail = detail;
+        public void setQuestionType(String questionType) {
+            this.questionType = questionType;
+        }
+
+        public List<PaperItem> getQuestionList() {
+            return questionList;
+        }
+
+        public void setQuestionList(List<PaperItem> questionList) {
+            this.questionList = questionList;
+        }
     }
 }

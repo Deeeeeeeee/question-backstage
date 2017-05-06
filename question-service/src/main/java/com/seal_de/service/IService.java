@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public interface IService<E> {
     boolean save(E element);
+    boolean saveAfterClear(E element);
     E getById(Serializable id);
     void delete(E element);
 }

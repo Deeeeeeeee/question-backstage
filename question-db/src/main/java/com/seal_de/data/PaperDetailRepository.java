@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface PaperDetailRepository extends IRepository<PaperDetail> {
     List<PaperDetail> findByPaperId(String paperId);
-    PaperDetail getByPaperIdAndParentId(String paperId, String parentIndex);
+    PaperDetail getByPaperIdAndParentId(String paperId, Integer parentIndex);
 }

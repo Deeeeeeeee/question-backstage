@@ -6,14 +6,14 @@ import com.seal_de.domain.PaperItem;
  * Created by sealde on 5/5/17.
  */
 public class PaperItemInfoModel {
-    private String parentIndex;
+    private Integer parentIndex;
     private PaperItem paperItem;
 
-    public String getParentIndex() {
+    public Integer getParentIndex() {
         return parentIndex;
     }
 
-    public void setParentIndex(String parentIndex) {
+    public void setParentIndex(Integer parentIndex) {
         this.parentIndex = parentIndex;
     }
 

@@ -9,4 +9,5 @@ public interface IRepository<T> {
     void saveOrUpdate(T element);
     T getById(Serializable id);
     void delete(T element);
+    void clear();
 }
