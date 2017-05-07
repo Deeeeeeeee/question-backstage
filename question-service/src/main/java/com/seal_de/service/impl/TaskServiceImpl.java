@@ -47,6 +47,7 @@ public class TaskServiceImpl extends AbstractServiceImpl<TaskRepository, Task> i
             TaskInfoModel taskInfoModel = new TaskInfoModel();
             Paper paper = task.getPaperId();
 
+            taskInfoModel.setTaskId(task.getId());
             taskInfoModel.setStatus(task.getStatus());
             taskInfoModel.setCreateTime(task.getCreateTime());
             taskInfoModel.setGrade(paper.getGrade());

@@ -14,6 +14,7 @@ public class TaskInfoModel {
     private String subject;
     private String grade;
     /** Task **/
+    private String taskId;
     private Date createTime;
     private Integer status;
 
@@ -39,6 +40,14 @@ public class TaskInfoModel {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
