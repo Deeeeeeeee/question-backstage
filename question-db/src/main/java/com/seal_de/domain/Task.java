@@ -17,6 +17,7 @@ public class Task {
     private Integer status;
     private String userId;
     private Paper paperId;
+    private String errorMessage;
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -71,6 +72,16 @@ public class Task {
         this.paperId = paperId;
     }
 
+    @Basic
+    @Column(name = "error_message")
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -79,6 +90,7 @@ public class Task {
                 ", status=" + status +
                 ", userId='" + userId + '\'' +
                 ", paperId=" + paperId +
+                ", errorMessage='" + errorMessage + '\'' +
                 '}';
     }
 }

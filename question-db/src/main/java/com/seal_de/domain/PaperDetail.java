@@ -1,6 +1,7 @@
 package com.seal_de.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -62,7 +63,7 @@ public class PaperDetail {
         this.parentIndex = parentIndex;
     }
 
-    @OneToMany(targetEntity = PaperItem.class)
+    @OneToMany(targetEntity = PaperItem.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "paper_detail_id")
     public List<PaperItem> getPaperItems() {
         return paperItems;

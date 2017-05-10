@@ -13,10 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by sealde on 4/24/17.
@@ -54,7 +51,11 @@ public class TaskController {
         Task task = processTask(user.getId(), paper);
         paperService.save(paper);
         taskService.save(task);
-        final String taskId = paper.getId();
+
+        PaperDetail paperDetail = initPaperDetail(paper);
+        paperDetailService.save(paperDetail);
+
+        final String taskId = task.getId();
         return new HashMap<String, String>(){{this.put("taskId", taskId);}};
     }
 
@@ -63,6 +64,20 @@ public class TaskController {
         task.setUserId(userId);
         task.setPaperId(paper);
         return task;
+    }
+
+    private PaperDetail initPaperDetail(Paper paper) {
+        PaperDetail paperDetail = new PaperDetail();
+        paperDetail.setPaperId(paper.getId());
+        paperDetail.setParentIndex(0);
+        paperDetail.setPaperItems(initPaperItems());
+        return paperDetail;
+    }
+
+    private List<PaperItem> initPaperItems() {
+        final PaperItem paperItem = new PaperItem();
+        paperItem.setChildIndex(0);
+        return new ArrayList<PaperItem>(){{add(paperItem);}};
     }
 
     @RequestMapping(value = "/editPaper/{taskId}", method = RequestMethod.GET)
@@ -157,6 +172,18 @@ public class TaskController {
     public String finishEditPaper(@PathVariable String taskId) {
         Task task = taskService.getById(taskId);
         task.setStatus(20);
+        taskService.save(task);
+        return "success";
+    }
+
+    @PostMapping(value = "/saveErrorMsg/{taskId}")
+    public String saveErrorMsg(UserInfo user, @PathVariable String taskId, @RequestParam String errorMsg) {
+        Task task = taskService.getById(taskId);
+        boolean isAuditor = user.getRole().intValue() == 2;
+        isTrue(isAuditor, HttpStatus.BAD_REQUEST, "权限不足：不是审核者");
+
+        task.setStatus(30);
+        task.setErrorMessage(errorMsg);
         taskService.save(task);
         return "success";
     }

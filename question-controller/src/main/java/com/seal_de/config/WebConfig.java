@@ -1,5 +1,6 @@
 package com.seal_de.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seal_de.interceptor.CommonInterceptor;
 import com.seal_de.interceptor.TokenInterceptor;

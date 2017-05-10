@@ -3,6 +3,8 @@ package com.seal_de.Model;
 import com.seal_de.domain.PaperDetail;
 import com.seal_de.domain.PaperItem;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +17,8 @@ public class PaperInfoModel {
     public PaperInfoModel(List<PaperDetail> paperDetails) {
         this.questionHeadline = new LinkedList<QuestionHeadline>();
         for(PaperDetail paperDetail : paperDetails) {
-            List<PaperItem> questionList = paperDetail.getPaperItems();
+            List<PaperItem> questionList = paperDetail.getPaperItems() != null ?
+                    paperDetail.getPaperItems() : new ArrayList<PaperItem>();
             this.questionHeadline.add(new QuestionHeadline(paperDetail.getQuestionType(), questionList));
         }
     }
