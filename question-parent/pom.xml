@@ -23,6 +23,7 @@
         <druid.version>1.0.1</druid.version>
         <hibernate.validator.version>5.0.1.Final</hibernate.validator.version>
         <jsonpath.version>2.2.0</jsonpath.version>
+        <poi.version>3.15</poi.version>
     </properties>
 
     <dependencies>
@@ -76,6 +77,34 @@
             <version>${spring.security.version}</version>
         </dependency>
         <!-- spring security end -->
+
+        <!-- poi begin -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.opensagres.xdocreport</groupId>
+            <artifactId>org.apache.poi.xwpf.converter.core</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.opensagres.xdocreport</groupId>
+            <artifactId>org.apache.poi.xwpf.converter.xhtml</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+        <!-- poi end -->
 
         <!-- jdbc begin -->
         <dependency>

@@ -19,4 +19,11 @@ public class HibernateTaskRepository extends AbstractRepository<Task> implements
                 .addOrder(Order.asc("id"))
                 .list();
     }
+
+    public List<Task> findByStatus(Integer status) {
+        return createCriteria()
+                .add(Restrictions.eq("status", status))
+                .addOrder(Order.asc("createTime"))
+                .list();
+    }
 }

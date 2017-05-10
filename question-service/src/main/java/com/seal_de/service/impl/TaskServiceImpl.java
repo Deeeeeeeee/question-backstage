@@ -41,6 +41,11 @@ public class TaskServiceImpl extends AbstractServiceImpl<TaskRepository, Task> i
         return repository.findByUserId(userId);
     }
 
+    @Override
+    public List<Task> findByStatus(Integer status) {
+        return repository.findByStatus(status);
+    }
+
     public List<TaskInfoModel> taskToTaskInfoModel(List<Task> tasks) {
         List<TaskInfoModel> taskInfoModels = new ArrayList<TaskInfoModel>();
         for(Task task : tasks) {

@@ -176,14 +176,33 @@ public class TaskController {
         return "success";
     }
 
-    @PostMapping(value = "/saveErrorMsg/{taskId}")
+    @PostMapping(value = "/check/saveErrorMsg/{taskId}")
     public String saveErrorMsg(UserInfo user, @PathVariable String taskId, @RequestParam String errorMsg) {
-        Task task = taskService.getById(taskId);
-        boolean isAuditor = user.getRole().intValue() == 2;
-        isTrue(isAuditor, HttpStatus.BAD_REQUEST, "权限不足：不是审核者");
+        verifyAuditor(user);
 
+        Task task = taskService.getById(taskId);
         task.setStatus(30);
         task.setErrorMessage(errorMsg);
+        taskService.save(task);
+        return "success";
+    }
+
+    @PostMapping(value = "/check/list")
+    public List<TaskInfoModel> checkList(UserInfo user) {
+        verifyAuditor(user);
+
+        List<Task> tasks = taskService.findByStatus(20);
+        List<TaskInfoModel> taskInfoModels = taskService.taskToTaskInfoModel(tasks);
+        return taskInfoModels;
+    }
+
+    @PostMapping(value = "/check/store/{taskId}")
+    public String checkStore(UserInfo user, @PathVariable String taskId) {
+        verifyAuditor(user);
+
+        Task task = taskService.getById(taskId);
+        task.setErrorMessage(null);
+        task.setStatus(100);
         taskService.save(task);
         return "success";
     }
@@ -193,5 +212,10 @@ public class TaskController {
         boolean isEditPermit = (status >= 10 && status < 20) || (status >= 30 && status < 40);
         isTrue(isEditPermit, HttpStatus.BAD_REQUEST,
                 "非法操作：现在不允许修改试卷");
+    }
+
+    private void verifyAuditor(UserInfo user) {
+        boolean isAuditor = user.getRole().intValue() == 2;
+        isTrue(isAuditor, HttpStatus.BAD_REQUEST, "权限不足：不是审核者");
     }
 }

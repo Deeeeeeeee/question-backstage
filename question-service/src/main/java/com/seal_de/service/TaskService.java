@@ -10,5 +10,6 @@ import java.util.List;
  */
 public interface TaskService extends IService<Task>{
     List<Task> findByUserId(String userId);
+    List<Task> findByStatus(Integer status);
     List<TaskInfoModel> taskToTaskInfoModel(List<Task> tasks);
 }
