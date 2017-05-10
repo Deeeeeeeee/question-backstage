@@ -1,6 +1,8 @@
 package com.seal_de.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,6 +12,8 @@ import java.util.Date;
  * Created by sealde on 4/25/17.
  */
 @Entity
+@DynamicUpdate
+@DynamicInsert
 @Table(name = "task")
 public class Task {
     private String id;

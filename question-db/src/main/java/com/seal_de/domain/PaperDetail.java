@@ -2,6 +2,8 @@ package com.seal_de.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,6 +13,8 @@ import java.util.List;
  * Created by sealde on 5/5/17.
  */
 @Entity
+@DynamicUpdate
+@DynamicInsert
 @Table(name = "paper_detail", schema = "question", catalog = "")
 public class PaperDetail {
     @JsonIgnore

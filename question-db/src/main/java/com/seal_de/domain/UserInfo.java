@@ -1,10 +1,14 @@
 package com.seal_de.domain;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
 @Entity
+@DynamicUpdate
+@DynamicInsert
 @Table(name = "user_info", schema = "question", catalog = "")
 public class UserInfo {
     private String id;
