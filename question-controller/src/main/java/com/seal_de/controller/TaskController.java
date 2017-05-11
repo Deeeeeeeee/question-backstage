@@ -187,7 +187,7 @@ public class TaskController {
         return "success";
     }
 
-    @PostMapping(value = "/check/list")
+    @GetMapping(value = "/check/list")
     public List<TaskInfoModel> checkList(UserInfo user) {
         verifyAuditor(user);
 
