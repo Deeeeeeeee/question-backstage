@@ -96,14 +96,26 @@ public class TaskController {
         verifyStatus(task);
 
         PaperDetail persistenceDetail = paperDetailService.getByPaperIdAndParentId(paperId, paperDetail.getParentIndex());
-        if(persistenceDetail != null)
-            paperDetail.setId(persistenceDetail.getId());
 
-        paperDetail.setPaperId(paperId);
-        paperDetailService.saveAfterClear(paperDetail);
+        if(persistenceDetail != null) {
+            persistenceDetail = processPaperDetail(paperDetail, persistenceDetail);
+        } else {
+            persistenceDetail = paperDetail;
+            persistenceDetail.setPaperId(paperId);
+        }
+
+        paperDetailService.saveAfterClear(persistenceDetail);
 
         List<PaperDetail> paperDetails = paperDetailService.findByPaperId(paperId);
         return new PaperInfoModel(paperDetails);
+    }
+
+    private PaperDetail processPaperDetail(PaperDetail paperDetail, PaperDetail persisitenceDetail) {
+        if(paperDetail.getQuestionType() != null)
+            persisitenceDetail.setQuestionType(paperDetail.getQuestionType());
+        if(paperDetail.getParentIndex() != null)
+            persisitenceDetail.setParentIndex(paperDetail.getParentIndex());
+        return persisitenceDetail;
     }
 
     @RequestMapping(value = "/deletePaperDetail/{taskId}", method = RequestMethod.POST)
@@ -132,11 +144,15 @@ public class TaskController {
 
         PaperItem persistenceItem = paperItemService.getByPaperDetailIdAndChildIndex(
                 paperDetailId, paperItem.getChildIndex());
-        if(persistenceItem != null)
-            paperItem.setId(persistenceItem.getId());
 
-        paperItem.setPaperDetailId(paperDetailId);
-        paperItemService.saveAfterClear(paperItem);
+        if(persistenceItem != null) {
+            persistenceItem.setPaperDetailId(paperDetailId);
+            persistenceItem = processItem(paperItem, persistenceItem);
+        } else {
+            persistenceItem = paperItem;
+            persistenceItem.setPaperDetailId(paperDetailId);
+        }
+        paperItemService.saveAfterClear(persistenceItem);
 
         List<PaperDetail> paperDetails = paperDetailService.findByPaperId(paperId);
         return new PaperInfoModel(paperDetails);
@@ -146,6 +162,18 @@ public class TaskController {
         Integer parentIndex = paperItemInfoModel.getParentIndex();
         PaperDetail paperDetail = paperDetailService.getByPaperIdAndParentId(paperId, parentIndex);
         return paperDetail.getId();
+    }
+
+    private PaperItem processItem(PaperItem paperItem, PaperItem persistenceItem){
+        if(paperItem.getStem() != null)
+            persistenceItem.setStem(paperItem.getStem());
+        if(paperItem.getAnswer() != null)
+            persistenceItem.setAnswer(paperItem.getAnswer());
+        if(paperItem.getExamPoint() != null)
+            persistenceItem.setExamPoint(paperItem.getExamPoint());
+        if(paperItem.getSolution() != null)
+            persistenceItem.setSolution(paperItem.getSolution());
+        return persistenceItem;
     }
 
     @RequestMapping(value = "/deletePaperItem/{taskId}", method = RequestMethod.POST)
