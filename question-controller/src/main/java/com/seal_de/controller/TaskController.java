@@ -229,6 +229,8 @@ public class TaskController {
         isNull(task, HttpStatus.BAD_REQUEST, "操作失败：一次只能获取一个任务");
 
         task = taskService.getByStatus(20);
+        notNull(task, HttpStatus.NOT_FOUND, "获取失败：任务池里没有任务");
+
         task.setStatus(21);
         task.setAuditorId(user.getId());
         taskService.save(task);
