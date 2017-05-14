@@ -215,13 +215,19 @@ public class TaskController {
         return "success";
     }
 
-    @GetMapping(value = "/check/list")
-    public List<TaskInfoModel> checkList(UserInfo user) {
+    @GetMapping(value = "/check/getTask")
+    public TaskInfoModel checkList(UserInfo user) {
         verifyAuditor(user);
 
-        List<Task> tasks = taskService.findByStatus(20);
-        List<TaskInfoModel> taskInfoModels = taskService.taskToTaskInfoModel(tasks);
-        return taskInfoModels;
+        Task task = taskService.getByAuditorId(user.getId());
+        if(task != null) {
+            return new TaskInfoModel(task);
+        }
+
+        task = taskService.getByStatus(20);
+        task.setStatus(21);
+        taskService.save(task);
+        return new TaskInfoModel(task);
     }
 
     @PostMapping(value = "/check/store/{taskId}")

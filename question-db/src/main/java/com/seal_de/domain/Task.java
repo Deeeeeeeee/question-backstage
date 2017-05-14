@@ -22,6 +22,8 @@ public class Task {
     private String userId;
     private Paper paperId;
     private String errorMessage;
+    private String auditorId;
+    private Date checkTime;
 
     @Id
     @GeneratedValue(generator = "generator")
@@ -86,6 +88,26 @@ public class Task {
         this.errorMessage = errorMessage;
     }
 
+    @Basic
+    @Column(name = "auditor_id")
+    public String getAuditorId() {
+        return auditorId;
+    }
+
+    public void setAuditorId(String auditorId) {
+        this.auditorId = auditorId;
+    }
+
+    @Basic
+    @Column(name = "check_time")
+    public Date getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(Date checkTime) {
+        this.checkTime = checkTime;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
@@ -95,6 +117,8 @@ public class Task {
                 ", userId='" + userId + '\'' +
                 ", paperId=" + paperId +
                 ", errorMessage='" + errorMessage + '\'' +
+                ", auditorId='" + auditorId + '\'' +
+                ", checkTime=" + checkTime +
                 '}';
     }
 }

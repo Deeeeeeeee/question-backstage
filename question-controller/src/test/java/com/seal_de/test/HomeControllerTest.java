@@ -3,7 +3,6 @@ package com.seal_de.test;
 import com.seal_de.controller.ExceptionRestController;
 import com.seal_de.controller.HomeController;
 import com.seal_de.domain.UserInfo;
-import com.seal_de.exception.NotFoundException;
 import com.seal_de.service.UserInfoService;
 import org.junit.Before;
 import org.junit.Test;

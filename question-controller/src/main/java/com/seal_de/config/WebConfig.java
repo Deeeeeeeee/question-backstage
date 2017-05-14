@@ -78,7 +78,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .addPathPatterns("/**").excludePathPatterns("/", "/register", "/login", "/provinces", "/cities/**");
     }
 
-    //解析json返回数据
+    /** 解析json返回数据 **/
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();

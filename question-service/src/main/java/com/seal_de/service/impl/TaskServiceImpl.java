@@ -42,6 +42,13 @@ public class TaskServiceImpl extends AbstractServiceImpl<TaskRepository, Task> i
     }
 
     @Override
+    @Transactional
+    public Task getByStatus(Integer status) {
+        return repository.getByStatus(status);
+    }
+
+    @Override
+    @Transactional
     public List<Task> findByStatus(Integer status) {
         return repository.findByStatus(status);
     }
@@ -61,5 +68,11 @@ public class TaskServiceImpl extends AbstractServiceImpl<TaskRepository, Task> i
             taskInfoModels.add(taskInfoModel);
         }
         return taskInfoModels;
+    }
+
+    @Override
+    @Transactional
+    public Task getByAuditorId(String auditorId) {
+        return repository.getByAuditorId(auditorId);
     }
 }

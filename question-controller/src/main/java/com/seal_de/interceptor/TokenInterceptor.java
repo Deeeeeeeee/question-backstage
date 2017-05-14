@@ -30,7 +30,6 @@ public class TokenInterceptor implements HandlerInterceptor {
         VerifyUtil.isTrue(tokenManager.checkToken(token),
                 HttpStatus.UNAUTHORIZED, "token验证失败");
         httpServletRequest.setAttribute("token_username", tokenManager.getUsername(token));
-//        httpServletRequest.setAttribute("token_username", "jm1");
         return true;
     }
 
