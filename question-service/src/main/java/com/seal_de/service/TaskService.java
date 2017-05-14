@@ -14,4 +14,5 @@ public interface TaskService extends IService<Task>{
     List<Task> findByStatus(Integer status);
     List<TaskInfoModel> taskToTaskInfoModel(List<Task> tasks);
     Task getByAuditorId(String auditorId);
+    List<Task> findByAuditorId(String auditorId);
 }

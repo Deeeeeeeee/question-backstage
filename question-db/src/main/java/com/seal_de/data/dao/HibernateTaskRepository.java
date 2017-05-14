@@ -34,9 +34,16 @@ public class HibernateTaskRepository extends AbstractRepository<Task> implements
                 .uniqueResult();
     }
 
-    public Task getByAuditorId(String auditorId) {
+    public Task getByAuditorIdAndStatus(String auditorId, Integer status) {
         return (Task) createCriteria()
                 .add(Restrictions.eq("auditorId", auditorId))
+                .add(Restrictions.eq("status", status))
                 .uniqueResult();
+    }
+
+    public List<Task> findByAuditorId(String auditorId) {
+        return createCriteria()
+                .add(Restrictions.eq("auditorId", auditorId))
+                .list();
     }
 }

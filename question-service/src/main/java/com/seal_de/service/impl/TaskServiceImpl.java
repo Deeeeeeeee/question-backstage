@@ -73,6 +73,11 @@ public class TaskServiceImpl extends AbstractServiceImpl<TaskRepository, Task> i
     @Override
     @Transactional
     public Task getByAuditorId(String auditorId) {
-        return repository.getByAuditorId(auditorId);
+        return repository.getByAuditorIdAndStatus(auditorId, 21);
+    }
+
+    @Override
+    public List<Task> findByAuditorId(String auditorId) {
+        return repository.findByAuditorId(auditorId);
     }
 }

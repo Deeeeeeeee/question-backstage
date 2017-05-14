@@ -89,6 +89,14 @@ public class TaskController {
         return new PaperInfoModel(details);
     }
 
+    @GetMapping(value = "/getErrorMsg/{taskId}")
+    public String getErrorMsg(@PathVariable String taskId) {
+        Task task = taskService.getById(taskId);
+        boolean isErrorStatus = (task.getStatus() == 30);
+        isTrue(isErrorStatus, HttpStatus.BAD_REQUEST, "错误操作：该任务不是错误退回状态");
+        return task.getErrorMessage();
+    }
+
     @RequestMapping(value = "/addOrUpdatePaperDetail/{taskId}", method = RequestMethod.POST)
     public PaperInfoModel addOrUpdatePaperDetail(@RequestBody PaperDetail paperDetail, @PathVariable String taskId) {
         Task task = taskService.getById(taskId);
@@ -204,6 +212,29 @@ public class TaskController {
         return "success";
     }
 
+    @GetMapping(value = "/check/list")
+    public List<TaskInfoModel> checkList(UserInfo user) {
+        verifyAuditor(user);
+
+        List<Task> tasks = taskService.findByAuditorId(user.getId());
+        List<TaskInfoModel> taskInfoModels = taskService.taskToTaskInfoModel(tasks);
+        return taskInfoModels;
+    }
+
+    @GetMapping(value = "/check/getTask")
+    public String checkGetTask(UserInfo user) {
+        verifyAuditor(user);
+
+        Task task = taskService.getByAuditorId(user.getId());
+        isNull(task, HttpStatus.BAD_REQUEST, "操作失败：一次只能获取一个任务");
+
+        task = taskService.getByStatus(20);
+        task.setStatus(21);
+        task.setAuditorId(user.getId());
+        taskService.save(task);
+        return "success";
+    }
+
     @PostMapping(value = "/check/saveErrorMsg/{taskId}")
     public String saveErrorMsg(UserInfo user, @PathVariable String taskId, @RequestParam String errorMsg) {
         verifyAuditor(user);
@@ -213,21 +244,6 @@ public class TaskController {
         task.setErrorMessage(errorMsg);
         taskService.save(task);
         return "success";
-    }
-
-    @GetMapping(value = "/check/getTask")
-    public TaskInfoModel checkList(UserInfo user) {
-        verifyAuditor(user);
-
-        Task task = taskService.getByAuditorId(user.getId());
-        if(task != null) {
-            return new TaskInfoModel(task);
-        }
-
-        task = taskService.getByStatus(20);
-        task.setStatus(21);
-        taskService.save(task);
-        return new TaskInfoModel(task);
     }
 
     @PostMapping(value = "/check/store/{taskId}")
