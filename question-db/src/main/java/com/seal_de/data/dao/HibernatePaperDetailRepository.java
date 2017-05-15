@@ -20,7 +20,7 @@ public class HibernatePaperDetailRepository extends AbstractRepository<PaperDeta
                 .list();
     }
 
-    public PaperDetail getByPaperIdAndParentId(String paperId, Integer parentIndex) {
+    public PaperDetail getByPaperIdAndParentIndex(String paperId, Integer parentIndex) {
         return (PaperDetail) createCriteria()
                 .add(Restrictions.eq("paperId", paperId))
                 .add(Restrictions.eq("parentIndex", parentIndex))

@@ -11,7 +11,7 @@ public interface PaperDetailService extends IService<PaperDetail> {
     boolean save(List<PaperDetail> paperDetails, int index);
     List<PaperDetail> findByPaperId(String paperId);
     List<PaperDetail> findByPaperIdAfterClear(String paperId);
-    PaperDetail getByPaperIdAndParentId(String paperId, Integer parentIndex);
+    PaperDetail getByPaperIdAndParentIndex(String paperId, Integer parentIndex);
     List<PaperDetail> reduceParentIndex(List<PaperDetail> paperDetails, Integer parentIndex);
     void verifyDeletePaperDetail(PaperDetail paperDetail);
 }

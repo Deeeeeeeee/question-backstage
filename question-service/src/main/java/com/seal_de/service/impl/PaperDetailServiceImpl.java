@@ -35,8 +35,8 @@ public class PaperDetailServiceImpl extends AbstractServiceImpl<PaperDetailRepos
         return repository.findByPaperId(paperId);
     }
 
-    public PaperDetail getByPaperIdAndParentId(String paperId, Integer parentIndex) {
-        return repository.getByPaperIdAndParentId(paperId, parentIndex);
+    public PaperDetail getByPaperIdAndParentIndex(String paperId, Integer parentIndex) {
+        return repository.getByPaperIdAndParentIndex(paperId, parentIndex);
     }
 
     public List<PaperDetail> reduceParentIndex(List<PaperDetail> paperDetails, Integer parentIndex) {

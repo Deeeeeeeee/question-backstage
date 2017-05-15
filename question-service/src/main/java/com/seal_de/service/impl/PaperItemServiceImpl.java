@@ -38,7 +38,7 @@ public class PaperItemServiceImpl extends AbstractServiceImpl<PaperItemRepositor
 
     private List<PaperItem> modChildIndex(List<PaperItem> paperItems, int childIndex, int num) {
         PaperItem currentItem = null;
-        ListIterator<PaperItem> it = paperItems.listIterator();
+        ListIterator<PaperItem> it = paperItems.listIterator(childIndex);
         while(it.hasNext()) {
             currentItem = it.next();
             currentItem.setChildIndex(currentItem.getChildIndex() + num);

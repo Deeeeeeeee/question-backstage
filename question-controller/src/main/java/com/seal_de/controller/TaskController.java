@@ -103,7 +103,7 @@ public class TaskController {
         String paperId = task.getPaperId().getId();
         verifyStatus(task);
 
-        PaperDetail persistenceDetail = paperDetailService.getByPaperIdAndParentId(paperId, paperDetail.getParentIndex());
+        PaperDetail persistenceDetail = paperDetailService.getByPaperIdAndParentIndex(paperId, paperDetail.getParentIndex());
 
         if(persistenceDetail != null) {
             persistenceDetail = processPaperDetail(paperDetail, persistenceDetail);
@@ -132,7 +132,7 @@ public class TaskController {
         String paperId = task.getPaperId().getId();
         verifyStatus(task);
 
-        PaperDetail paperDetail = paperDetailService.getByPaperIdAndParentId(paperId, parentIndex);
+        PaperDetail paperDetail = paperDetailService.getByPaperIdAndParentIndex(paperId, parentIndex);
         paperDetailService.verifyDeletePaperDetail(paperDetail);
 
         paperDetailService.delete(paperDetail);
@@ -168,7 +168,7 @@ public class TaskController {
 
     private String getDetailId(PaperItemInfoModel paperItemInfoModel, String paperId) {
         Integer parentIndex = paperItemInfoModel.getParentIndex();
-        PaperDetail paperDetail = paperDetailService.getByPaperIdAndParentId(paperId, parentIndex);
+        PaperDetail paperDetail = paperDetailService.getByPaperIdAndParentIndex(paperId, parentIndex);
         return paperDetail.getId();
     }
 
@@ -191,11 +191,11 @@ public class TaskController {
         String paperId = task.getPaperId().getId();
         verifyStatus(task);
 
-        PaperDetail paperDetail = paperDetailService.getByPaperIdAndParentId(paperId, parentIndex);
+        PaperDetail paperDetail = paperDetailService.getByPaperIdAndParentIndex(paperId, parentIndex);
         PaperItem paperItem = paperItemService.getByPaperDetailIdAndChildIndex(paperDetail.getId(), childIndex);
 
-        paperItemService.delete(paperItem);
         notNull(paperItem, HttpStatus.NOT_FOUND, "删除错误：没有这道小题");
+        paperItemService.deleteAfter(paperItem);
 
         List<PaperItem> paperItems = paperItemService.findByPaperDetailId(paperDetail.getId());
         paperItemService.reduceChildIndex(paperItems, childIndex);

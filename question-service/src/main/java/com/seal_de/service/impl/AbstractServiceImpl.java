@@ -42,6 +42,12 @@ public abstract class AbstractServiceImpl<K extends IRepository, E> {
     }
 
     @Transactional
+    public void deleteAfter(E element) {
+        repository.clear();
+        repository.delete(element);
+    }
+
+    @Transactional
     public E getById(Serializable id) {
         return (E) repository.getById(id);
     }
