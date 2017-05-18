@@ -69,7 +69,10 @@ public class TaskController {
 
     @RequestMapping(value = "/startMaking", method = RequestMethod.POST)
     public Map<String, String> startMaking(UserInfo user, @RequestBody Paper paper) {
-        Task task = processTask(user.getId(), paper);
+        Task task = taskService.getNotMakingTask(user.getId());
+        notNull(task, HttpStatus.NOT_FOUND, "操作失败：未上传图片不能执行制作操作");
+
+        task = processTask(task, user.getId(), paper);
         paperService.save(paper);
         taskService.save(task);
 
@@ -80,8 +83,7 @@ public class TaskController {
         return new HashMap<String, String>(){{this.put("taskId", taskId);}};
     }
 
-    private Task processTask(String userId, Paper paper) {
-        Task task = new Task();
+    private Task processTask(Task task, String userId, Paper paper) {
         task.setUserId(userId);
         task.setPaperId(paper);
         task.setStatus(10);
