@@ -42,7 +42,7 @@ public abstract class AbstractServiceImpl<K extends IRepository, E> {
     }
 
     @Transactional
-    public void deleteAfter(E element) {
+    public void deleteAfterClear(E element) {
         repository.clear();
         repository.delete(element);
     }

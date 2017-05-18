@@ -58,7 +58,7 @@ public class PaperItem {
     }
 
     @Basic
-    @Column(name = "examPoint")
+    @Column(name = "exam_point")
     public String getExamPoint() {
         return examPoint;
     }

@@ -16,7 +16,6 @@ public class HibernateTaskRepository extends AbstractRepository<Task> implements
     public List<Task> findByUserId(String userId) {
         return createCriteria()
                 .add(Restrictions.eq("userId", userId))
-                .addOrder(Order.asc("id"))
                 .list();
     }
 
@@ -45,5 +44,12 @@ public class HibernateTaskRepository extends AbstractRepository<Task> implements
         return createCriteria()
                 .add(Restrictions.eq("auditorId", auditorId))
                 .list();
+    }
+
+    public Task getByUserIdAndStatus(String userId, Integer status) {
+        return (Task) createCriteria()
+                .add(Restrictions.eq("userId", userId))
+                .add(Restrictions.eq("status", status))
+                .uniqueResult();
     }
 }

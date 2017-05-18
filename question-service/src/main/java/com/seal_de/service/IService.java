@@ -10,5 +10,5 @@ public interface IService<E> {
     boolean saveAfterClear(E element);
     E getById(Serializable id);
     void delete(E element);
-    void deleteAfter(E element);
+    void deleteAfterClear(E element);
 }

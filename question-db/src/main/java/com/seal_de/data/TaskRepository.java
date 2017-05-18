@@ -13,4 +13,5 @@ public interface TaskRepository extends IRepository<Task>{
     Task getByStatus(Integer status);
     Task getByAuditorIdAndStatus(String auditorId, Integer status);
     List<Task> findByAuditorId(String auditorId);
+    Task getByUserIdAndStatus(String userId, Integer status);
 }

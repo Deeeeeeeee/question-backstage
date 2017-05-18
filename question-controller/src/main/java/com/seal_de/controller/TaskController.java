@@ -8,11 +8,16 @@ import com.seal_de.service.*;
 
 import static com.seal_de.service.util.VerifyUtil.*;
 
+import com.seal_de.service.util.FileUploadUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -31,6 +36,8 @@ public class TaskController {
     private PaperDetailService paperDetailService;
     @Autowired
     private PaperItemService paperItemService;
+    @Autowired
+    private HttpServletRequest request;
 
     @ModelAttribute
     public UserInfo pre(@RequestAttribute String token_username) {
@@ -44,6 +51,20 @@ public class TaskController {
         List<Task> tasks = taskService.findByUserId(user.getId());
         List<TaskInfoModel> taskInfoModels = taskService.taskToTaskInfoModel(tasks);
         return taskInfoModels;
+    }
+
+    @GetMapping(value = "/getImg")
+    public String[] getImg(UserInfo user) {
+        Task task = taskService.getNotMakingTask(user.getId());
+        String url = task.getUrl();
+        return StringUtils.split(url, ",");
+    }
+
+    @GetMapping(value = "/getImg/{taskId}")
+    public String[] getImgByTaskId(@PathVariable String taskId) {
+        Task task = taskService.getById(taskId);
+        String url = task.getUrl();
+        return StringUtils.split(url, ",");
     }
 
     @RequestMapping(value = "/startMaking", method = RequestMethod.POST)
@@ -63,6 +84,7 @@ public class TaskController {
         Task task = new Task();
         task.setUserId(userId);
         task.setPaperId(paper);
+        task.setStatus(10);
         return task;
     }
 
@@ -195,7 +217,7 @@ public class TaskController {
         PaperItem paperItem = paperItemService.getByPaperDetailIdAndChildIndex(paperDetail.getId(), childIndex);
 
         notNull(paperItem, HttpStatus.NOT_FOUND, "删除错误：没有这道小题");
-        paperItemService.deleteAfter(paperItem);
+        paperItemService.deleteAfterClear(paperItem);
 
         List<PaperItem> paperItems = paperItemService.findByPaperDetailId(paperDetail.getId());
         paperItemService.reduceChildIndex(paperItems, childIndex);

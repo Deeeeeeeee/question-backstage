@@ -30,7 +30,7 @@ public class TaskServiceImpl extends AbstractServiceImpl<TaskRepository, Task> i
         if(id == null || "".equals(id)) {
             task.setId(null);
             task.setCreateTime(new Date());
-            task.setStatus(10);
+            task.setStatus(0);
         }
         repository.saveOrUpdate(task);
         return true;
@@ -80,4 +80,10 @@ public class TaskServiceImpl extends AbstractServiceImpl<TaskRepository, Task> i
     public List<Task> findByAuditorId(String auditorId) {
         return repository.findByAuditorId(auditorId);
     }
+
+    @Override
+    public Task getNotMakingTask(String userId) {
+        return repository.getByUserIdAndStatus(userId, 0);
+    }
+
 }

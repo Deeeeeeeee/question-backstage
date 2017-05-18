@@ -38,7 +38,8 @@ public class UserInfoServiceImpl implements UserInfoService, UserDetailsService 
 
         if(userInfo.getId() !=null)
             userInfo.setId(null);
-        return userInfoRepository.save(userInfo);
+        userInfoRepository.save(userInfo);
+        return true;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

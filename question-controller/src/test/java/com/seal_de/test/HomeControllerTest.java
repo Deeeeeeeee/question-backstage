@@ -96,18 +96,4 @@ public class HomeControllerTest {
     }
 
 
-    @Test
-    public void tttt() {
-        List<String> list = new ArrayList<String>();
-        list.add("1");
-        list.add("2");
-        list.add("3");
-        list.add("4");
-        ListIterator<String> iterator = list.listIterator(2);
-        while(iterator.hasNext()){
-            String s = iterator.next();
-            iterator.set(s+"0000");
-        }
-        System.out.println("aaa");
-    }
 }

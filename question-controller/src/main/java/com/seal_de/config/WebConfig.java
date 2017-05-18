@@ -75,7 +75,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new CommonInterceptor())
                 .addPathPatterns("/**").excludePathPatterns("/");
         registry.addInterceptor(new TokenInterceptor(tokenManager))
-                .addPathPatterns("/**").excludePathPatterns("/", "/register", "/login", "/provinces", "/cities/**");
+                .addPathPatterns("/**").excludePathPatterns("/", "/register", "/login", "/provinces", "/cities/**",
+                "/task/fileUpload");
     }
 
     /** 解析json返回数据 **/

@@ -39,7 +39,7 @@ public class PaperItemRepositoryTest {
     @Transactional
     public void delete() {
         PaperDetail paperDetail = paperDetailRepository.getById("ff8081815c06b949015c06be4e870005");
-        PaperItem paperItem = paperItemRepository.getById("ff8081815c0d2e90015c0d2f2e940003");
+        PaperItem paperItem = paperItemRepository.getById("ff8081815c06b949015c06be4e870006");
         paperItemRepository.clear();
         paperItemRepository.delete(paperItem);
         System.out.println("success");
